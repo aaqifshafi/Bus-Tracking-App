@@ -164,7 +164,7 @@ const Map = () => {
     if (progress.length > 0 && currentIndex < progress.length) {
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) => prevIndex + 1);
-      }, 1000);
+      }, 100);
 
       return () => clearInterval(interval);
     }
