@@ -4,25 +4,22 @@ import {
   GoogleMap,
   LoadScript,
   Marker,
-  DirectionsRenderer,
   InfoWindow,
-  TrafficLayer,
+  Polyline,
 } from "@react-google-maps/api";
 
 const Map = () => {
   const mapRef = useRef();
   const [isLoaded, setIsLoaded] = useState(false);
   const [routeData, setRouteData] = useState(null);
-  const [error, setError] = useState(null);
   const [directions, setDirections] = useState(null);
-  const [progressMarker, setProgressMarker] = useState(null);
-  const [progressIndex, setProgressIndex] = useState(0);
   const [progressLatLng, setProgressLatLng] = useState(null);
-  const [intervalId, setIntervalId] = useState(null);
+  const [path, setPath] = useState([]);
+  const [progressPath, setProgressPath] = useState([]);
+  const [stepIndex, setStepIndex] = useState(0);
+  const velocity = (50 * 1000) / 3600; // 50 km/h in meters per second
 
-  // Replace 'YOUR_API_KEY' with your actual Google Maps API key
-  const GOOGLE_MAPS_API_KEY = "AIzaSyBVZEPhBRovTPI0l1lLbdb89u33RaRmzg4";
-  // const API_ENDPOINT = 'http://3.6.37.230:5000/api/routesdata'; // Replace with your actual API endpoint
+  const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
   const response = [
     {
       _id: "65ad38570919606e5fdfdc4b",
@@ -149,6 +146,12 @@ const Map = () => {
               lat: routeData.points[0].lat,
               lng: routeData.points[0].lng,
             });
+            const pathPoints = result.routes[0].overview_path.map((point) => ({
+              lat: point.lat(),
+              lng: point.lng(),
+            }));
+            setPath(pathPoints);
+            setProgressPath([pathPoints[0]]);
           } else {
             console.error(`Directions request failed due to ${status}`);
           }
@@ -158,29 +161,69 @@ const Map = () => {
   }, [routeData]);
 
   useEffect(() => {
-    if (directions) {
-      const updateProgress = () => {
-        const leg = directions.routes[0].legs[0];
-        const step = leg.steps[progressIndex];
+    const moveMarker = () => {
+      if (path.length > 1) {
+        const moveAlongPath = () => {
+          if (stepIndex < path.length - 1) {
+            const currentLatLng = path[stepIndex];
+            const nextLatLng = path[stepIndex + 1];
+            const distance = calculateDistance(currentLatLng, nextLatLng);
+            const travelTime = distance / velocity; // time to travel in seconds
 
-        if (progressIndex < leg.steps.length) {
-          const nextLatLng = step.end_location;
-          setProgressLatLng({
-            lat: nextLatLng.lat(),
-            lng: nextLatLng.lng(),
-          });
-          setProgressIndex(progressIndex + 1);
-        } else {
-          clearInterval(intervalId);
-        }
-      };
+            const interval = setInterval(() => {
+              const latDiff = nextLatLng.lat - currentLatLng.lat;
+              const lngDiff = nextLatLng.lng - currentLatLng.lng;
+              const stepLat = (latDiff * velocity) / distance / 20;
+              const stepLng = (lngDiff * velocity) / distance / 20;
 
-      const id = setInterval(updateProgress, 2000);
-      setIntervalId(id);
+              setProgressLatLng((prev) => ({
+                lat: prev.lat + stepLat,
+                lng: prev.lng + stepLng,
+              }));
 
-      return () => clearInterval(id);
-    }
-  }, [directions, progressIndex]);
+              setProgressPath((prev) => [
+                ...prev,
+                {
+                  lat: prev[prev.length - 1].lat + stepLat,
+                  lng: prev[prev.length - 1].lng + stepLng,
+                },
+              ]);
+
+              if (
+                Math.abs(progressLatLng.lat - nextLatLng.lat) <
+                  Math.abs(stepLat) &&
+                Math.abs(progressLatLng.lng - nextLatLng.lng) <
+                  Math.abs(stepLng)
+              ) {
+                clearInterval(interval);
+                setStepIndex((prev) => prev + 1);
+              }
+            }, travelTime * 50);
+          }
+        };
+
+        moveAlongPath();
+      }
+    };
+
+    moveMarker();
+  }, [path, stepIndex, progressLatLng]);
+
+  const calculateDistance = (point1, point2) => {
+    const R = 6371e3; // metres
+    const φ1 = (point1.lat * Math.PI) / 180; // φ, λ in radians
+    const φ2 = (point2.lat * Math.PI) / 180;
+    const Δφ = ((point2.lat - point1.lat) * Math.PI) / 180;
+    const Δλ = ((point2.lng - point1.lng) * Math.PI) / 180;
+
+    const a =
+      Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+      Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const d = R * c; // in metres
+    return d;
+  };
 
   return (
     <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
@@ -211,12 +254,32 @@ const Map = () => {
             />
           ))}
 
+          {/* Polyline for the entire route */}
+          <Polyline
+            path={path}
+            options={{
+              strokeColor: "#0088FF",
+              strokeOpacity: 1,
+              strokeWeight: 6,
+            }}
+          />
+
+          {/* Polyline for progress path */}
+          <Polyline
+            path={progressPath}
+            options={{
+              strokeColor: "orange",
+              strokeOpacity: 1,
+              strokeWeight: 2,
+            }}
+          />
+
           {/* Progress marker */}
           {progressLatLng && (
             <Marker
               position={progressLatLng}
               icon={{
-                url: "https://maps.google.com/mapfiles/kml/shapes/cabs.png", // Car icon
+                url: "https://maps.google.com/mapfiles/kml/shapes/bus.png", // Bus icon
                 scaledSize: new window.google.maps.Size(40, 40),
               }}
             />
@@ -237,19 +300,6 @@ const Map = () => {
               </div>
             </InfoWindow>
           )}
-
-          {/* DirectionsRenderer for displaying the detailed route */}
-          {directions && (
-            <DirectionsRenderer
-              options={{
-                directions,
-                suppressMarkers: true,
-              }}
-            />
-          )}
-
-          {/* TrafficLayer for displaying traffic information */}
-          <TrafficLayer />
         </GoogleMap>
       )}
     </LoadScript>
