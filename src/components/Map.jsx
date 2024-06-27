@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
+import "@/styles/Map.css";
 import {
   GoogleMap,
   LoadScript,
@@ -178,7 +179,7 @@ const Map = () => {
     <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
       {isLoaded && routeData.length > 0 && (
         <GoogleMap
-          mapContainerStyle={{ width: "100%", height: "100%" }}
+          mapContainerStyle={{ width: "100%", height: "100%"}}
           center={initialCenter}
           zoom={15}
           onLoad={handleMapLoad}

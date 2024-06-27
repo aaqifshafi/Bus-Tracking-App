@@ -3,9 +3,10 @@
 .bus-tracking-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Align content to the left horizontally */
+  align-items: center; /* Align content to the left horizontally */
   justify-content: center; /* Center content vertically */
   padding: 35px; /* Add padding to create space around the content */
+  height: 100vh;
 }
 
 .text-left {
@@ -13,9 +14,16 @@
 }
 
 .map-container {
-  width: 65%;
-  height: 550px;
-  margin-top: 30px; /* Add 30 pixels of spacing on top */
+  width: 90%;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid rgb(151, 156, 161);
+  border-radius: 20px;
+  overflow: hidden;
+
+  
 }
 
 /* styles.css */
