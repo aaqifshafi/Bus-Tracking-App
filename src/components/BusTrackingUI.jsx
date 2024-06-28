@@ -2,8 +2,6 @@ import React from "react";
 import "@/styles/BusTrackingUI.css";
 import Map from "./Map";
 
-import Footer from  "./Footer"
-
 
 const BusTrackingUI = () => {
   return (
@@ -14,7 +12,6 @@ const BusTrackingUI = () => {
         <Map/>
 
       </div>
-      <Footer />
     </div>
   );
 };
