@@ -165,7 +165,7 @@ const Map = () => {
     if (progress.length > 0 && currentIndex < progress.length) {
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) => prevIndex + 1);
-      }, 100);
+      }, 20);
 
       return () => clearInterval(interval);
     }
@@ -179,9 +179,9 @@ const Map = () => {
     <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
       {isLoaded && routeData.length > 0 && (
         <GoogleMap
-          mapContainerStyle={{ width: "100%", height: "100%"}}
+          mapContainerStyle={{ width: "100%", height: "100%" }}
           center={initialCenter}
-          zoom={15}
+          zoom={10}
           onLoad={handleMapLoad}
         >
           {routeData.map((point, index) => (
@@ -198,7 +198,7 @@ const Map = () => {
             />
           ))}
 
-          {directions && (
+          {/* {directions && (
             <DirectionsRenderer
               options={{
                 polylineOptions: {
@@ -211,13 +211,17 @@ const Map = () => {
                 suppressMarkers: true,
               }}
             />
-          )}
+          )} */}
 
           {progress.length > 0 && currentIndex < progress.length && (
             <>
               <Polyline
                 path={progress.slice(0, currentIndex + 1)}
-                options={{ strokeColor: "orange" }}
+                options={{
+                  strokeColor: "#0088FF",
+                  strokeOpacity: 0.8,
+                  strokeWeight: 8,
+                }}
               />
               <Marker
                 position={progress[currentIndex]}
