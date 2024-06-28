@@ -1,0 +1,25 @@
+footer{
+    width: 100%;
+    height: auto;
+    background-color: #000;
+    color: white;
+    display: block;
+    padding: 30px 20px;
+}
+
+h2{
+    color: white;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+p{
+    color:rgb(168, 181, 195);
+}
+.team{
+    margin-top: 20px;
+}
+
+image{
+    filter: invert();
+}

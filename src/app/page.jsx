@@ -5,8 +5,9 @@ import Footer from "@/components/Footer";
 export default function page() {
   return (
     <>
-      <BusTrackingUI />
-      <Footer />
+    <BusTrackingUI />
+    <Footer/>
     </>
-  );
+  ) 
+
 }
