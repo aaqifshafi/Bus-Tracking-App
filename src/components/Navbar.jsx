@@ -26,19 +26,17 @@ import logoLight from "@/assets/logo-light.png"; // Light mode logo
 import logoDark from "@/assets/logo-dark.png"; // Dark mode logo
 
 function Navbar() {
-  const { theme, setTheme } = useTheme(); // Access theme and setTheme function from useTheme hook
-  const [logoSrc, setLogoSrc] = useState(
-    theme === "dark" ? logoDark : logoLight
-  );
+  const { theme, systemTheme } = useTheme(); // Access theme and systemTheme from useTheme hook
+  const [logoSrc, setLogoSrc] = useState(logoLight);
 
   useEffect(() => {
-    // Update logoSrc when theme changes
-    setLogoSrc(theme === "dark" ? logoDark : logoLight);
-  }, [theme]);
+    const currentTheme = theme === "system" ? systemTheme : theme;
+    setLogoSrc(currentTheme === "dark" ? logoDark : logoLight);
+  }, [theme, systemTheme]);
 
   return (
     <>
-      <div className="flex min-h-screen w-full flex-col">
+      <div className="flex w-full flex-col">
         <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
           <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
             <div>
@@ -79,7 +77,7 @@ function Navbar() {
               </NavigationMenuList>
             </NavigationMenu>
           </nav>
-          <nav>
+          <nav className="ml-auto">
             <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -111,5 +109,4 @@ function Navbar() {
     </>
   );
 }
-
 export default Navbar;
