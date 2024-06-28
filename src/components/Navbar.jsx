@@ -1,5 +1,8 @@
-import Image from "next/image"; // Import Image from next/image
+"use client";
+import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useTheme } from "next-themes"; // Import useTheme hook from next-themes
 import { ModeToggle } from "@/components/ui/modeToggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -19,16 +22,27 @@ import {
   NavigationMenu,
 } from "@/components/ui/navigation-menu";
 
-import logo from "@/assets/logo.png"; // Replace with actual path to your logo
+import logoLight from "@/assets/logo-light.png"; // Light mode logo
+import logoDark from "@/assets/logo-dark.png"; // Dark mode logo
 
 function Navbar() {
+  const { theme, setTheme } = useTheme(); // Access theme and setTheme function from useTheme hook
+  const [logoSrc, setLogoSrc] = useState(
+    theme === "dark" ? logoDark : logoLight
+  );
+
+  useEffect(() => {
+    // Update logoSrc when theme changes
+    setLogoSrc(theme === "dark" ? logoDark : logoLight);
+  }, [theme]);
+
   return (
     <>
       <div className="flex min-h-screen w-full flex-col">
         <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
           <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
             <div>
-              <Image src={logo} alt="logo" width={100} height={100} />{" "}
+              <Image src={logoSrc} alt="logo" width={100} height={100} />{" "}
             </div>
           </nav>
 
