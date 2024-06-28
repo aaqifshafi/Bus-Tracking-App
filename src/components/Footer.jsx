@@ -1,6 +1,5 @@
 import React from "react";
 import "@/styles/Footer.css";
-import "@/assets/logo-black.png";
 
 export default function Footer() {
   return (

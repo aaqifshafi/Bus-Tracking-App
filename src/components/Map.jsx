@@ -218,7 +218,7 @@ const Map = () => {
               <Polyline
                 path={progress.slice(0, currentIndex + 1)}
                 options={{
-                  strokeColor: "#0088FF",
+                  strokeColor: "orange",
                   strokeOpacity: 0.8,
                   strokeWeight: 8,
                 }}
