@@ -8,7 +8,7 @@ export default function page() {
   return (
     <>
       <Navbar />
-      <Test />
+      {/* <Test /> */}
       <BusTrackingUI />
       <Footer />
     </>
