@@ -26,13 +26,8 @@ export default function Footer() {
             className="col-span-2"
           />
         </Link>
-        <span className="text-sm text-muted-foreground">
-          A web application that allows users to search for bus routes and
-          schedules in real-time
-        </span>
       </div>
       <div className="p-2 items-center text-center">
-        
         <p className="text-sm text-muted-foreground mt-2 by">
           Developed by: Huzaif Team
         </p>
