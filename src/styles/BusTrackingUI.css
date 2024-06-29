@@ -30,6 +30,13 @@
   height: 100%;
   padding: 65px 10px;
   font-weight: 500;
-  
+}
+
+.details>ul{
+  list-style:circle;
+}
+
+p{
+  color: slategrey;
 }
 /* styles.css */

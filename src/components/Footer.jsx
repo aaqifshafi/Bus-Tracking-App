@@ -16,7 +16,7 @@ export default function Footer() {
   }, [theme, systemTheme]);
   return (
     <footer className="bg-background p-4 w-full">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-center flex-col">
         <Link href="/">
           <Image
             src={logoSrc}
@@ -26,16 +26,17 @@ export default function Footer() {
             className="col-span-2"
           />
         </Link>
-        <span className="hidden md:inline text-muted-foreground md:gap-5 md:text-sm">
+        <span className="text-sm text-muted-foreground">
           A web application that allows users to search for bus routes and
-          schedules in real-time ✌️
+          schedules in real-time
         </span>
       </div>
       <div className="p-2 items-center text-center">
-        <p className="text-sm text-muted-foreground">Copyright &copy; 2024</p>
-        <p className="text-lg text-muted-foreground mt-2">
+        
+        <p className="text-sm text-muted-foreground mt-2 by">
           Developed by: Huzaif Team
         </p>
+        <p className="text-sm text-muted-foreground">Copyright &copy; 2024</p>
       </div>
     </footer>
   );

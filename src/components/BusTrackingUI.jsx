@@ -14,7 +14,7 @@ const BusTrackingUI = () => {
       </div>
       <div className="details">
         <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">Details</h3><hr /><br />
-        <ul>
+        <ul >
           <li>Bus Name:
             <p>B-21s</p> </li><br />
           <li>Bus Number: 
