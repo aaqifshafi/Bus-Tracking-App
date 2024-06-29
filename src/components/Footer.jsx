@@ -15,29 +15,25 @@ export default function Footer() {
     setLogoSrc(currentTheme === "dark" ? logoDark : logoLight);
   }, [theme, systemTheme]);
   return (
-    <footer className="bg-background p-4 w-full mx-0">
-      <div className="items-center flex col gap-80  ">
-        {/* hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6 */}
+    <footer className="bg-background p-4 w-full">
+      <div className="flex items-center justify-between">
         <Link href="/">
           <Image
             src={logoSrc}
             alt="logo"
             width={100}
             height={100}
-            className="md:place-content-center"
+            className="col-span-2"
           />
         </Link>
-
-        <p className="text-xl text-muted-foreground hidden md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
+        <span className="hidden md:inline text-muted-foreground md:gap-5 md:text-sm">
           A web application that allows users to search for bus routes and
           schedules in real-time ✌️
-        </p>
+        </span>
       </div>
-      <div className="p-2 items-center">
-        <p className="text-sm text-muted-foreground text-center">
-          Copyright &copy; 2024
-        </p>
-        <p className="team text-l text-muted-foreground-mt-10 text-center ">
+      <div className="p-2 items-center text-center">
+        <p className="text-sm text-muted-foreground">Copyright &copy; 2024</p>
+        <p className="text-lg text-muted-foreground mt-2">
           Developed by: Huzaif Team
         </p>
       </div>

@@ -52,7 +52,7 @@ function Navbar() {
                     <NavigationMenuLink
                       className={navigationMenuTriggerStyle()}
                     >
-                      Dashboard
+                      Home
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
