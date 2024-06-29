@@ -14,8 +14,8 @@ export default function Footer() {
     setLogoSrc(currentTheme === "dark" ? logoDark : logoLight);
   }, [theme, systemTheme]);
   return (
-    <footer className="container bg-background py-2">
-      <div className="items-center flex gap-6 col-span-2">
+    <footer className="bg-background p-4 w-full mx-0">
+      <div className="items-center flex col gap-80  ">
         {/* hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6 */}
         <Image
           src={logoSrc}

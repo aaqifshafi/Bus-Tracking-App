@@ -2,14 +2,14 @@ import React from "react";
 import BusTrackingUI from "@/components/BusTrackingUI";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import Login from "@/components/Login";
 import { Card } from "@/components/ui/card";
+import { HomePage } from "@/components/HomePage";
 
 export default function page() {
   return (
     <>
       <Navbar />
-      {/* <Login /> */}
+      {/* <HomePage /> */}
       <Card>
         <BusTrackingUI />
       </Card>
