@@ -1,6 +1,8 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
 import "@/styles/Map.css";
+import {Card} from "@/components/ui/card"
+
 import {
   GoogleMap,
   LoadScript,
@@ -178,7 +180,7 @@ const Map = () => {
   return (
     <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
       {isLoaded && routeData.length > 0 && (
-        <GoogleMap
+          <GoogleMap
           mapContainerStyle={{ width: "100%", height: "100%" }}
           center={initialCenter}
           zoom={10}
@@ -235,6 +237,7 @@ const Map = () => {
 
           <TrafficLayer />
         </GoogleMap>
+        
       )}
     </LoadScript>
   );
