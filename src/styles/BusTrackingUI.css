@@ -1,7 +1,8 @@
 /* BusTrackingUI.css */
 
 .bus-tracking-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
   flex-direction: column;
   align-items: center; /* Align content to the left horizontally */
   justify-content: center; /* Center content vertically */
@@ -23,5 +24,12 @@
   border-radius: 20px;
   overflow: hidden;
 }
-
+.details{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 65px 10px;
+  font-weight: 500;
+  
+}
 /* styles.css */
