@@ -14,23 +14,28 @@ export default function Footer() {
     setLogoSrc(currentTheme === "dark" ? logoDark : logoLight);
   }, [theme, systemTheme]);
   return (
-    <footer className=" top-0 flex h-16 items-center">
-      <div className="container sticky bg-background py-2">
-        <div className="items-center flex gap-6 col-span-2">
-          <Image src={logoSrc} alt="logo" width={100} height={100} />
-          <p className="text-xl text-muted-foreground ">
-            A web application that allows users to search for bus routes and
-            schedules in real-time ✌️
-          </p>
-        </div>
-        <div className="p-2 items-center">
-          <p className="text-sm text-muted-foreground text-center">
-            Copyright &copy; 2024
-          </p>
-          <p className="team text-l text-muted-foreground-mt-10 text-center ">
-            Developed by: Huzaif Team
-          </p>
-        </div>
+    <footer className="container bg-background py-2">
+      <div className="items-center flex gap-6 col-span-2">
+        {/* hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6 */}
+        <Image
+          src={logoSrc}
+          alt="logo"
+          width={100}
+          height={100}
+          className="md:place-content-center"
+        />
+        <p className="text-xl text-muted-foreground hidden md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
+          A web application that allows users to search for bus routes and
+          schedules in real-time ✌️
+        </p>
+      </div>
+      <div className="p-2 items-center">
+        <p className="text-sm text-muted-foreground text-center">
+          Copyright &copy; 2024
+        </p>
+        <p className="team text-l text-muted-foreground-mt-10 text-center ">
+          Developed by: Huzaif Team
+        </p>
       </div>
     </footer>
   );
