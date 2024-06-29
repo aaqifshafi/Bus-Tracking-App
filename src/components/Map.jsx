@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
 import "@/styles/Map.css";
-import {Card} from "@/components/ui/card"
 
 import {
   GoogleMap,
@@ -167,7 +166,7 @@ const Map = () => {
     if (progress.length > 0 && currentIndex < progress.length) {
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) => prevIndex + 1);
-      }, 20);
+      }, 1000);
 
       return () => clearInterval(interval);
     }
@@ -180,7 +179,7 @@ const Map = () => {
   return (
     <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
       {isLoaded && routeData.length > 0 && (
-          <GoogleMap
+        <GoogleMap
           mapContainerStyle={{ width: "100%", height: "100%" }}
           center={initialCenter}
           zoom={10}
@@ -220,7 +219,7 @@ const Map = () => {
               <Polyline
                 path={progress.slice(0, currentIndex + 1)}
                 options={{
-                  strokeColor: "orange",
+                  strokeColor: "#0088FF",
                   strokeOpacity: 0.8,
                   strokeWeight: 8,
                 }}
@@ -237,7 +236,6 @@ const Map = () => {
 
           <TrafficLayer />
         </GoogleMap>
-        
       )}
     </LoadScript>
   );
