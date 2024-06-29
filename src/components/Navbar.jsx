@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useTheme } from "next-themes"; // Import useTheme hook from next-themes
+import { useTheme } from "next-themes";
 import { ModeToggle } from "@/components/ui/modeToggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -39,9 +39,7 @@ function Navbar() {
       <div className="flex w-full flex-col">
         <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
           <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-            <div>
-              <Image src={logoSrc} alt="logo" width={100} height={100} />{" "}
-            </div>
+            <Image src={logoSrc} alt="logo" width={100} height={100} />
           </nav>
 
           <nav className="grid gap-6 text-lg font-medium">
