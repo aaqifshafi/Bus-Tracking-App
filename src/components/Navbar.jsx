@@ -1,66 +1,110 @@
-import React from "react";
-import { ModeToggle } from "@/components/ui/modeToggle";
+"use client";
 import Image from "next/image";
-import logo from "@/assets/logo.png";
 import Link from "next/link";
-import { Icons } from "@/components/ui/icons";
+import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
+import { ModeToggle } from "@/components/ui/modeToggle";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
-  NavigationMenuItem,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
   navigationMenuTriggerStyle,
+  NavigationMenuItem,
+  NavigationMenuList,
+  NavigationMenu,
 } from "@/components/ui/navigation-menu";
-const components = [
-  {
-    title: "Alert Dialog",
-    href: "/docs/primitives/alert-dialog",
-    description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
-  },
-  {
-    title: "Hover Card",
-    href: "/docs/primitives/hover-card",
-    description:
-      "For sighted users to preview content available behind a link.",
-  },
-  {
-    title: "Progress",
-    href: "/docs/primitives/progress",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-  },
-  {
-    title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
-    description: "Visually or semantically separates content.",
-  },
-  {
-    title: "Tabs",
-    href: "/docs/primitives/tabs",
-    description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-  },
-  {
-    title: "Tooltip",
-    href: "/docs/primitives/tooltip",
-    description:
-      "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-  },
-];
+
+import logoLight from "@/assets/logo-light.png"; // Light mode logo
+import logoDark from "@/assets/logo-dark.png"; // Dark mode logo
+
 function Navbar() {
+  const { theme, systemTheme } = useTheme(); // Access theme and systemTheme from useTheme hook
+  const [logoSrc, setLogoSrc] = useState(logoLight);
+
+  useEffect(() => {
+    const currentTheme = theme === "system" ? systemTheme : theme;
+    setLogoSrc(currentTheme === "dark" ? logoDark : logoLight);
+  }, [theme, systemTheme]);
+
   return (
     <>
-      <div>
-        <Image src={logo} alt="logo" width={100} height={100} />
-        <ModeToggle />
+      <div className="flex w-full flex-col">
+        <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
+          <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
+            <Image src={logoSrc} alt="logo" width={100} height={100} />
+          </nav>
+
+          <nav className="grid gap-6 text-lg font-medium">
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <Link href="/" legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      Dashboard
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link href="/about" legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      About
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link href="/" legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      Admin Login
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          </nav>
+          <nav className="ml-auto">
+            <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="rounded-full"
+                  >
+                    <Avatar>
+                      <AvatarImage src="https://github.com/shadcn.png" />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+
+                    <span className="sr-only">Toggle user menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                  <DropdownMenuItem>Logout</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <ModeToggle />
+            </div>
+          </nav>
+        </header>
       </div>
     </>
   );
 }
-
 export default Navbar;
