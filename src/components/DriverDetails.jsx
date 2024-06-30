@@ -18,23 +18,18 @@ function DriverDetails() {
           <li>
             Bus Number:
             <p>JK01 7777</p>
-            <br />
           </li>
           <li>
             Bus Location:
             <p>Bus is at the bus stop</p>
-            <br />
           </li>
-
           <li>
             Driver Name:
-            <p>Rashid Ahmad</p>
-            <br />
+            <p>Rashid Ahmad</p>{" "}
           </li>
           <li>
             Driver Number:
             <p>999999900</p>
-            <br />
           </li>
         </ul>
       </div>
