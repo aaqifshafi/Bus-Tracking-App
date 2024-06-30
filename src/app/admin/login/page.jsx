@@ -8,7 +8,7 @@ function LoginPage() {
     <div>
       <>
         <Navbar />
-        <main className="m-20">
+        <main className="bg-background p-[6rem]">
           <Login />
         </main>
         <Footer />

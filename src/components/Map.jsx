@@ -119,7 +119,7 @@ const Map = () => {
         const { paths, stops } = response[0];
         const orderedArray = [paths[0], ...stops, paths[1]];
         setRouteData(orderedArray);
-        setInitialCenter({ lat: paths[0].lat, lng: paths[0].lng });
+        setInitialCenter({ lat: stops[5].lat, lng: stops[5].lng });
       } else {
         setError("Response data is empty or malformed");
       }
@@ -182,7 +182,7 @@ const Map = () => {
         <GoogleMap
           mapContainerStyle={{ width: "100%", height: "100%" }}
           center={initialCenter}
-          zoom={10}
+          zoom={11}
           onLoad={handleMapLoad}
         >
           {routeData.map((point, index) => (
