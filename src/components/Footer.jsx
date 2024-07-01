@@ -28,9 +28,6 @@ export default function Footer() {
         </Link>
       </div>
       <div className="p-2 items-center text-center">
-        <p className="text-sm text-muted-foreground mt-2 by">
-          Developed by: Huzaif Team
-        </p>
         <p className="text-sm text-muted-foreground">Copyright &copy; 2024</p>
       </div>
     </footer>
