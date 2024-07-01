@@ -1,11 +1,13 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
 import "@/styles/Map.css";
+import { Card } from "@/components/ui/card";
 
 import {
   GoogleMap,
   LoadScript,
   Marker,
+  DirectionMatrix,
   DirectionsRenderer,
   TrafficLayer,
   Polyline,
@@ -15,6 +17,7 @@ const Map = () => {
   const [progress, setProgress] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [routeData, setRouteData] = useState([]);
+  const [busData, setBusData] = useState([]);
   const [error, setError] = useState(null);
   const [directions, setDirections] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -26,6 +29,7 @@ const Map = () => {
   const mapRef = useRef(null);
   const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
+  // Loading Map Script
   useEffect(() => {
     const loadScript = () => {
       const script = document.createElement("script");
@@ -37,6 +41,29 @@ const Map = () => {
 
     loadScript();
   }, [GOOGLE_MAPS_API_KEY]);
+
+  // Distance and Duration
+  useEffect(() => {
+    if (routeData.length > 0 && window.google) {
+      const distanceService = new google.maps.DistanceMatrixService();
+      distanceService.getDistanceMatrix(
+        {
+          origins: [{ lat: 34.091028, lng: 74.777464 }], //Endpoint 1
+          destinations: [{ lat: 33.926425, lng: 75.016911 }], //Endpoint 2
+          travelMode: "DRIVING",
+        },
+        (result, status) => {
+          if (status === "OK") {
+            setBusData(result.rows[0].elements[0]);
+          } else {
+            console.error(`Distance request failed due to ${status}`);
+          }
+        }
+      );
+    } else {
+      console.error("Did not get Bus data.");
+    }
+  }, [busData]);
 
   useEffect(() => {
     if (isLoaded && window.google) {
@@ -129,13 +156,11 @@ const Map = () => {
   useEffect(() => {
     if (routeData.length > 0 && window.google) {
       const stops = routeData.filter((point) => point.type === "waypoint");
-
       const waypoints = stops.map((stop) => ({
         location: { lat: stop.lat, lng: stop.lng },
       }));
 
       const directionsService = new window.google.maps.DirectionsService();
-
       directionsService.route(
         {
           origin: { lat: routeData[0].lat, lng: routeData[0].lng },
@@ -166,12 +191,13 @@ const Map = () => {
     if (progress.length > 0 && currentIndex < progress.length) {
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) => prevIndex + 1);
-      }, 1000);
+      }, 20);
 
       return () => clearInterval(interval);
     }
   }, [progress, currentIndex]);
 
+  // console.log(distance, duration);
   const handleMapLoad = (map) => {
     mapRef.current = map;
   };
@@ -199,7 +225,7 @@ const Map = () => {
             />
           ))}
 
-          {/* {directions && (
+          {directions && (
             <DirectionsRenderer
               options={{
                 polylineOptions: {
@@ -212,14 +238,14 @@ const Map = () => {
                 suppressMarkers: true,
               }}
             />
-          )} */}
+          )}
 
           {progress.length > 0 && currentIndex < progress.length && (
             <>
               <Polyline
                 path={progress.slice(0, currentIndex + 1)}
                 options={{
-                  strokeColor: "#0088FF",
+                  strokeColor: "orange",
                   strokeOpacity: 0.8,
                   strokeWeight: 8,
                 }}
