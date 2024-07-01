@@ -1,23 +1,19 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
 import "@/styles/Map.css";
-import { Card } from "@/components/ui/card";
-
 import {
   GoogleMap,
   LoadScript,
   Marker,
-  DirectionMatrix,
   DirectionsRenderer,
   TrafficLayer,
   Polyline,
 } from "@react-google-maps/api";
 
-const Map = () => {
+const Map = ({ setBusData }) => {
   const [progress, setProgress] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [routeData, setRouteData] = useState([]);
-  const [busData, setBusData] = useState([]);
   const [error, setError] = useState(null);
   const [directions, setDirections] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -48,22 +44,30 @@ const Map = () => {
       const distanceService = new google.maps.DistanceMatrixService();
       distanceService.getDistanceMatrix(
         {
-          origins: [{ lat: 34.091028, lng: 74.777464 }], //Endpoint 1
-          destinations: [{ lat: 33.926425, lng: 75.016911 }], //Endpoint 2
+          origins: [{ lat: 34.091028, lng: 74.777464 }], // Endpoint 1
+          destinations: [{ lat: 33.926425, lng: 75.016911 }], // Endpoint 2
           travelMode: "DRIVING",
         },
         (result, status) => {
           if (status === "OK") {
-            setBusData(result.rows[0].elements[0]);
+            const busInfo = {
+              busName: "B-21s",
+              busNumber: "JK01 7777",
+              busLocation: "Srinagar",
+              busSpeed: " km/h",
+              driverName: "Rashid Ahmad",
+              driverNumber: "999999900",
+              distance: result.rows[0].elements[0].distance,
+              duration: result.rows[0].elements[0].duration,
+            };
+            setBusData(busInfo);
           } else {
             console.error(`Distance request failed due to ${status}`);
           }
         }
       );
-    } else {
-      console.error("Did not get Bus data.");
     }
-  }, [busData]);
+  }, [routeData, setBusData]);
 
   useEffect(() => {
     if (isLoaded && window.google) {
@@ -187,17 +191,24 @@ const Map = () => {
     }
   }, [routeData]);
 
+  const getRandomSpeed = () => {
+    const interval = 500;
+    // const interval = Math.floor(Math.random() * (1001 - 500)) + 500; //USE THIS FOR RANDOM SPEED
+    const speed = Math.floor(100 - ((interval - 500) / (1001 - 500)) * 100);
+    setBusData((prevData) => ({ ...prevData, busSpeed: `${speed} km/h` }));
+    return interval;
+  };
+
   useEffect(() => {
     if (progress.length > 0 && currentIndex < progress.length) {
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) => prevIndex + 1);
-      }, 20);
+      }, getRandomSpeed());
 
       return () => clearInterval(interval);
     }
   }, [progress, currentIndex]);
 
-  // console.log(distance, duration);
   const handleMapLoad = (map) => {
     mapRef.current = map;
   };
@@ -219,7 +230,7 @@ const Map = () => {
                 url:
                   index === 0 || index === routeData.length - 1
                     ? "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
-                    : "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
+                    : "",
                 scaledSize: new window.google.maps.Size(35, 35),
               }}
             />

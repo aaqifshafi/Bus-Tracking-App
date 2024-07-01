@@ -1,13 +1,22 @@
+"use client";
 import React from "react";
+import Map from "./Map";
+import BusInfo from "./BusInfo";
+import { useState, useEffect } from "react";
 import "@/styles/BusTrackingUI.css";
 
-import Map from "./Map";
-
 const BusTrackingUI = () => {
+  const [busData, setBusData] = useState(null);
+  useEffect(() => {
+    console.log("Bus data updated:", busData);
+  }, [busData]);
   return (
-    <div className="w-full h-full flex justify-center items-center border-2 border-muted rounded-[20px] overflow-hidden self-center justify-self-center ">
-      <Map />
-    </div>
+    <>
+      <div className="w-full h-full flex justify-center items-center border-2 border-muted rounded-[20px] overflow-hidden self-center justify-self-center">
+        <Map setBusData={setBusData} />
+      </div>
+      {busData && <BusInfo busData={busData} />}
+    </>
   );
 };
 

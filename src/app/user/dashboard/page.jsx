@@ -1,17 +1,25 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import BusTrackingUI from "@/components/BusTrackingUI";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import DriverDetails from "@/components/DriverDetails";
+import AddBus from "@/components/AddBus";
 
-function dashboard() {
+function Dashboard() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const onClick = () => {
+    setIsVisible(!isVisible);
+  };
+
   return (
     <>
       <Navbar />
       <main className="bg-background">
-        <div className="grid grid-cols-[60%_30%] grid-flow-col gap-[5rem] items-center justify-center p-16">
+        <div className="grid grid-cols-[70%_30%] grid-flow-col gap-[2rem] items-center justify-center p-16">
           <BusTrackingUI />
-          <DriverDetails />
+          {/* <MapContainer /> */}
+          {/* <DriverDetails /> */}
         </div>
       </main>
       <Footer />
@@ -19,4 +27,4 @@ function dashboard() {
   );
 }
 
-export default dashboard;
+export default Dashboard;
