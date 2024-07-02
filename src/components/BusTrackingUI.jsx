@@ -7,7 +7,9 @@ import "@/styles/BusTrackingUI.css";
 
 const BusTrackingUI = () => {
   const [busData, setBusData] = useState(null);
-
+  useEffect(() => {
+    console.log("Bus data updated:", busData);
+  }, [busData]);
   return (
     <>
       <div className="w-full h-full flex justify-center items-center border-2 border-muted rounded-[20px] overflow-hidden self-center justify-self-center">
