@@ -5,7 +5,6 @@ import { useSession } from "next-auth/react";
 import BusTrackingUI from "@/components/BusTrackingUI";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import AddBus from "@/components/AddBus";
 
 function Dashboard() {
   const { data: session, status } = useSession();
@@ -14,7 +13,7 @@ function Dashboard() {
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push("/admin/login");
+      router.push("/");
     }
   }, [status, router]);
 
@@ -37,15 +36,11 @@ function Dashboard() {
         <main className="flex-grow bg-background p-4">
           <div className="container mx-auto py-8">
             <h1 className="text-3xl font-bold mb-6 scroll-m-20 tracking-tight">
-              Admin Dashboard
+              Dashboard
             </h1>
             <div className="grid grid-cols-1 lg:grid-cols-[70%_30%] gap-2 items-start">
               <BusTrackingUI />
             </div>
-          </div>
-          <div className="bg-secondary p-4 rounded-lg m-8">
-            <h3 className="text-xl font-semibold mb-4">More Features</h3>
-            <AddBus />
           </div>
         </main>
         <Footer />

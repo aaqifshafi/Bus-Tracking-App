@@ -1,6 +1,7 @@
 "use client";
-import React, { use } from "react";
-import Link from "next/link";
+
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,14 +12,35 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signInn, signOut, useSession } from "next-auth/react";
-
-const user = {
-  email: "me@example.com",
-  password: "pass@123",
-};
+import { signIn, useSession } from "next-auth/react";
 
 function Login() {
+  const { data: session } = useSession();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const result = await signIn("credentials", {
+      email: email,
+      password: password,
+      redirect: false,
+    });
+    if (result.error) {
+      console.error("Authentication error:", result.error);
+      // Handle the error (e.g., show an error message to the user)
+    } else {
+      console.log("Successfully logged in!");
+      router.push("/admin/dashboard"); // Redirect to dashboard
+    }
+  };
+
+  if (session) {
+    router.push("/admin/dashboard"); // Redirect to dashboard if already logged in
+    return null; // Return null while redirecting
+  }
+
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
@@ -28,26 +50,36 @@ function Login() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="user@example.com"
-              required
-            />
-          </div>
-          <div className="grid gap-2">
-            <div className="flex items-center">
-              <Label htmlFor="password">Password</Label>
+        <form onSubmit={handleSubmit}>
+          <div className="grid gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="user@example.com"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
-            <Input id="password" type="password" required />
+            <div className="grid gap-2">
+              <div className="flex items-center">
+                <Label htmlFor="password">Password</Label>
+              </div>
+              <Input
+                id="password"
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <Button type="submit" className="w-full">
+              Login
+            </Button>
           </div>
-          <Button type="submit" className="w-full">
-            Login
-          </Button>
-        </div>
+        </form>
       </CardContent>
     </Card>
   );

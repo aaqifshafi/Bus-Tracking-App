@@ -1,13 +1,10 @@
-import React from "react";
-import { Minus, Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import React, { useState } from "react";
 import { Bus } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -22,10 +19,19 @@ import {
 } from "@/components/ui/drawer";
 
 export default function AddBus() {
-  function onClick() {}
-  <Button onClick={onClick} className="ml-16">
-    Add Bus
-  </Button>;
+  const [selectedLocation, setSelectedLocation] = useState(null);
+
+  const handleLocationSelect = (location) => {
+    setSelectedLocation(location);
+  };
+
+  const handleSubmit = () => {
+    // Handle submission logic here
+    console.log("Selected Location:", selectedLocation);
+    // Reset selectedLocation state if needed
+    setSelectedLocation(null);
+  };
+
   return (
     <Drawer>
       <DrawerTrigger asChild>
@@ -40,22 +46,44 @@ export default function AddBus() {
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
             <DrawerTitle>Add Bus</DrawerTitle>
-            <DrawerDescription>Set travelling route</DrawerDescription>
+            <DrawerDescription>Set traveling route</DrawerDescription>
           </DrawerHeader>
           <div className="flex justify-center items-center p-4 pb-0 text-sm uppercase text-foreground">
             <DropdownMenu>
-              <DropdownMenuTrigger>Select Location</DropdownMenuTrigger>
+              <DropdownMenuTrigger>
+                {selectedLocation ? selectedLocation : "Select Location"}
+              </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem>Srinagar</DropdownMenuItem>
-                <DropdownMenuItem>Budgam</DropdownMenuItem>
-                <DropdownMenuItem>Ganderbal</DropdownMenuItem>
-                <DropdownMenuItem>Baramulla</DropdownMenuItem>
-                <DropdownMenuItem>Anantnag</DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => handleLocationSelect("Srinagar")}
+                >
+                  Srinagar
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => handleLocationSelect("Budgam")}
+                >
+                  Budgam
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => handleLocationSelect("Ganderbal")}
+                >
+                  Ganderbal
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => handleLocationSelect("Baramulla")}
+                >
+                  Baramulla
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => handleLocationSelect("Anantnag")}
+                >
+                  Anantnag
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
           <DrawerFooter>
-            <Button>Submit</Button>
+            <Button onClick={handleSubmit}>Submit</Button>
             <DrawerClose asChild>
               <Button variant="outline">Cancel</Button>
             </DrawerClose>
