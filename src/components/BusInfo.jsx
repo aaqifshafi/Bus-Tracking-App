@@ -7,7 +7,7 @@ const BusInfo = ({ busData }) => {
         Details
       </h3>
       <hr />
-      <br />
+
       <ul className="my-2 ml-4 list-disc [&>li]:m-6">
         <li>
           Bus Name:
