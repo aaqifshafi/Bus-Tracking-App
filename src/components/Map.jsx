@@ -192,8 +192,7 @@ const Map = ({ setBusData }) => {
   }, [routeData]);
 
   const getRandomSpeed = () => {
-    const interval = 500;
-    // const interval = Math.floor(Math.random() * (1001 - 500)) + 500; //USE THIS FOR RANDOM SPEED
+    const interval = Math.floor(Math.random() * (1001 - 500)) + 500; //USE THIS FOR RANDOM SPEED
     const speed = Math.floor(100 - ((interval - 500) / (1001 - 500)) * 100);
     setBusData((prevData) => ({ ...prevData, busSpeed: `${speed} km/h` }));
     return interval;
