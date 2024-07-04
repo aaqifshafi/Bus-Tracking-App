@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { use } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Home from "@/components/Home";

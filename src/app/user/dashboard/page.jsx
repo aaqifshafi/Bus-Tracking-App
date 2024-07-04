@@ -18,8 +18,6 @@ function Dashboard() {
       <main className="bg-background">
         <div className="grid grid-cols-[70%_30%] grid-flow-col gap-[2rem] items-center justify-center p-16">
           <BusTrackingUI />
-          {/* <MapContainer /> */}
-          {/* <DriverDetails /> */}
         </div>
       </main>
       <Footer />

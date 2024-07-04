@@ -21,6 +21,7 @@ import {
   NavigationMenuList,
   NavigationMenu,
 } from "@/components/ui/navigation-menu";
+import { signOut, useSession } from "next-auth/react";
 
 import logoLight from "@/assets/logo-light.png"; // Light mode logo
 import logoDark from "@/assets/logo-dark.png"; // Dark mode logo
@@ -28,11 +29,19 @@ import logoDark from "@/assets/logo-dark.png"; // Dark mode logo
 function Navbar() {
   const { theme, systemTheme } = useTheme(); // Access theme and systemTheme from useTheme hook
   const [logoSrc, setLogoSrc] = useState(logoLight);
+  const { data: session } = useSession();
 
   useEffect(() => {
     const currentTheme = theme === "system" ? systemTheme : theme;
     setLogoSrc(currentTheme === "dark" ? logoDark : logoLight);
   }, [theme, systemTheme]);
+
+  const getInitials = (name) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("");
+  };
 
   return (
     <>
@@ -79,28 +88,36 @@ function Navbar() {
           </nav>
           <nav className="ml-auto">
             <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="secondary"
-                    size="icon"
-                    className="rounded-full"
-                  >
-                    <Avatar>
-                      <AvatarImage src="https://github.com/shadcn.png" />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-
-                    <span className="sr-only">Toggle user menu</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>Profile</DropdownMenuItem>
-                  <DropdownMenuItem>Logout</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              {session && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="secondary"
+                      size="icon"
+                      className="rounded-full"
+                    >
+                      <Avatar>
+                        <AvatarImage
+                          src={session.user.image}
+                          alt={session.user.name}
+                        />
+                        <AvatarFallback>
+                          {getInitials(session.user.name)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="sr-only">Toggle user menu</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => signOut()}>
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
               <ModeToggle />
             </div>
           </nav>
@@ -109,4 +126,5 @@ function Navbar() {
     </>
   );
 }
+
 export default Navbar;

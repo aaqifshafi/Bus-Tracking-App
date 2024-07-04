@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import BusTrackingUI from "@/components/BusTrackingUI";
 import Footer from "@/components/Footer";
@@ -6,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import AddBus from "@/components/AddBus";
 
 function Dashboard() {
+  loginIsRequiredClient();
   const [isVisible, setIsVisible] = useState(false);
 
   const onClick = () => {

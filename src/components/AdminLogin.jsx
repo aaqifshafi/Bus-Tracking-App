@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { use } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,28 +11,14 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signInn, signOut, useSession } from "next-auth/react";
+
+const user = {
+  email: "me@example.com",
+  password: "pass@123",
+};
 
 function Login() {
-  const { data: session } = useSession();
-  if (session) {
-    return (
-      <Card className="mx-auto max-w-sm">
-        <CardHeader>
-          <CardTitle className="text-2xl">Logged In</CardTitle>
-          <CardDescription>
-            You are logged in as {session.user.email}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button onClick={() => signOut()} className="w-full">
-            Sign Out
-          </Button>
-        </CardContent>
-      </Card>
-    );
-  }
-
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
@@ -58,19 +44,8 @@ function Login() {
             </div>
             <Input id="password" type="password" required />
           </div>
-          <Button
-            onClick={() => signIn("credentials")}
-            type="submit"
-            className="w-full"
-          >
+          <Button type="submit" className="w-full">
             Login
-          </Button>
-          <Button
-            onClick={() => signIn("google")}
-            variant="outline"
-            className="w-full"
-          >
-            Login with Google
           </Button>
         </div>
       </CardContent>

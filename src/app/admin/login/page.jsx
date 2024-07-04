@@ -1,7 +1,7 @@
 import React from "react";
-import Login from "@/components/Login";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AdminLogin from "@/components/AdminLogin";
 
 function LoginPage() {
   return (
@@ -9,7 +9,7 @@ function LoginPage() {
       <>
         <Navbar />
         <main className="bg-background p-[6rem]">
-          <Login />
+          <AdminLogin />
         </main>
         <Footer />
       </>
