@@ -14,12 +14,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signIn, useSession } from "next-auth/react";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 function Login() {
   const { data: session } = useSession();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const { toast } = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,7 +33,14 @@ function Login() {
     });
     if (result.error) {
       console.error("Authentication error:", result.error);
-      // Handle the error (e.g., show an error message to the user)
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description:
+          "Invalid Credentials! please check your details and try again", // Ensure this is a string
+        status: "error",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
     } else {
       console.log("Successfully logged in!");
       router.push("/dashboard"); // Redirect to dashboard

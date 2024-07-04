@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -13,12 +12,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signIn, useSession } from "next-auth/react";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 function Login() {
   const { data: session } = useSession();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const { toast } = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,16 +31,23 @@ function Login() {
     });
     if (result.error) {
       console.error("Authentication error:", result.error);
-      // Handle the error (e.g., show an error message to the user)
+      console.log(result);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "Invalid credentials please check and try again !", // Ensure this is a string
+        status: "error",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
     } else {
       console.log("Successfully logged in!");
-      router.push("/admin/dashboard"); // Redirect to dashboard
+      router.push("/admin/dashboard");
     }
   };
 
   if (session) {
-    router.push("/admin/dashboard"); // Redirect to dashboard if already logged in
-    return null; // Return null while redirecting
+    router.push("/admin/dashboard");
+    return null;
   }
 
   return (

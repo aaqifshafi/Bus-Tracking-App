@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import { ThemeProvider } from "@/components/themeprovider";
 import SessionWrapper from "@/components/SessionWrapper";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default function RootLayout({ children }) {
               disableTransitionOnChange
             >
               {children}
+              <Toaster />
             </ThemeProvider>
           </body>
         </SessionWrapper>
