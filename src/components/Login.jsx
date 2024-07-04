@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -37,7 +36,7 @@ function Login() {
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
         description:
-          "Invalid Credentials! please check your details and try again", // Ensure this is a string
+          "Invalid Credentials! please check your details and try again",
         status: "error",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
       });

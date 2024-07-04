@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Bus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,9 +17,12 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function AddBus() {
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const { toast } = useToast();
+  const drawerRef = useRef();
 
   const handleLocationSelect = (location) => {
     setSelectedLocation(location);
@@ -28,12 +31,24 @@ export default function AddBus() {
   const handleSubmit = () => {
     // Handle submission logic here
     console.log("Selected Location:", selectedLocation);
+
+    // Close the drawer
+    if (drawerRef.current) {
+      drawerRef.current.close();
+    }
+
+    toast({
+      title: "Bus Added",
+      description: `The bus traveling to ${selectedLocation} has been successfully added.`,
+      status: "success",
+    });
+
     // Reset selectedLocation state if needed
     setSelectedLocation(null);
   };
 
   return (
-    <Drawer>
+    <Drawer ref={drawerRef}>
       <DrawerTrigger asChild>
         <div className="ml-20">
           <Button>
