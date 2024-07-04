@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,12 +13,13 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 function Login() {
   const { data: session } = useSession();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,32 +28,18 @@ function Login() {
       password: password,
       redirect: false,
     });
-
     if (result.error) {
       console.error("Authentication error:", result.error);
       // Handle the error (e.g., show an error message to the user)
     } else {
       console.log("Successfully logged in!");
-      // You might want to redirect the user or update the UI here
+      router.push("/dashboard"); // Redirect to dashboard
     }
   };
 
   if (session) {
-    return (
-      <Card className="mx-auto max-w-sm">
-        <CardHeader>
-          <CardTitle className="text-2xl">Logged In</CardTitle>
-          <CardDescription>
-            You are logged in as {session.user.email}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button onClick={() => signOut()} className="w-full">
-            Sign Out
-          </Button>
-        </CardContent>
-      </Card>
-    );
+    router.push("/dashboard"); // Redirect to dashboard if already logged in
+    return null; // Return null while redirecting
   }
 
   return (
