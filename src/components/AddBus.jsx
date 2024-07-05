@@ -50,7 +50,7 @@ export default function AddBus() {
   return (
     <Drawer ref={drawerRef}>
       <DrawerTrigger asChild>
-        <div className="ml-20">
+        <div className="flex justify-center p-2">
           <Button>
             <Bus className="mr-2 h-7 w-5" />
             Add Bus
