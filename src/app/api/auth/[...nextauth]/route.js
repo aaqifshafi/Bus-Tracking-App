@@ -62,6 +62,15 @@ const handler = NextAuth({
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            profile(profile) {
+                return {
+                    id: profile.sub,
+                    name: profile.name,
+                    email: profile.email,
+                    image: profile.picture,
+                    role: "user", // Assign the default role as 'user' for Google sign-ins
+                };
+            },
         }),
     ],
     callbacks: {
@@ -78,6 +87,12 @@ const handler = NextAuth({
                 session.user.role = token.role; // Add role to the session
             }
             return session;
+        },
+        async signIn({ user, account }) {
+            if (account.provider === "google") {
+                user.role = "user"; // Ensure Google users have the 'user' role
+            }
+            return true;
         },
     },
     pages: {
