@@ -44,7 +44,7 @@ function Dashboard() {
             </div>
           </div>
           <div className="bg-secondary p-4 rounded-lg m-8">
-            <h3 className="text-xl font-semibold mb-4 flex justify-center">More Features</h3>
+            <h3 className="text-xl font-semibold mb-4">More Features</h3>
             <AddBus />
           </div>
         </main>
