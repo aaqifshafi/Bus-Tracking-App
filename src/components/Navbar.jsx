@@ -22,14 +22,17 @@ import {
   NavigationMenu,
 } from "@/components/ui/navigation-menu";
 import { signOut, useSession } from "next-auth/react";
+import { useRouter, usePathname } from "next/navigation";
 
 import logoLight from "@/assets/logo-light.png"; // Light mode logo
 import logoDark from "@/assets/logo-dark.png"; // Dark mode logo
 
 function Navbar() {
-  const { theme, systemTheme } = useTheme(); // Access theme and systemTheme from useTheme hook
+  const { theme, systemTheme } = useTheme();
   const [logoSrc, setLogoSrc] = useState(logoLight);
   const { data: session } = useSession();
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const currentTheme = theme === "system" ? systemTheme : theme;
@@ -74,15 +77,17 @@ function Navbar() {
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link href="/admin/login" legacyBehavior passHref>
-                    <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
-                    >
-                      Admin Login
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
+                {pathname === "/" && (
+                  <NavigationMenuItem>
+                    <Link href="/admin/login" legacyBehavior passHref>
+                      <NavigationMenuLink
+                        className={navigationMenuTriggerStyle()}
+                      >
+                        Admin Login
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
+                )}
               </NavigationMenuList>
             </NavigationMenu>
           </nav>
