@@ -6,6 +6,7 @@ import BusTrackingUI from "@/components/BusTrackingUI";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import AddBus from "@/components/AddBus";
+import SendMail from "@/components/SendMail";
 
 function Dashboard() {
   const { data: session, status } = useSession();
@@ -48,6 +49,7 @@ function Dashboard() {
               More Features
             </h3>
             <AddBus />
+            <SendMail />
           </div>
         </main>
         <Footer />

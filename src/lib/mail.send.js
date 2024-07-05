@@ -1,27 +1,36 @@
+"use server"
 import nodemailer from "nodemailer";
-import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 const transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false, // Use `true` for port 465, `false` for all other ports
-    auth: {
-      user: "will.breitenberg@ethereal.email",
-      pass: "gxW4Vr4Gba4YsPHbQ5",
-    },
-  });
+  service: 'gmail',
+  auth: {
+    user: "aaqifshafi4@gmail.com",
+    pass: "hoxs jfzs azuk bdcb",
+  },
+});
 
-  export async function sendEmail() {
-    // send mail with defined transport object
-    const info = await transporter.sendMail({
-      from: '"Bus App" <will.breitenberg@ethereal.email>', // sender address
-      to: "zargarfaarid@gmail.com", // list of receivers
-      subject: "Hello ✔", // Subject line
-      text: "Hello world?", // plain text body
-      html: "<b>Hello world?</b>", // html body
-    });
+// let currentTime = new Date();
+// currentTime.setMinutes(currentTime.getMinutes());
+// let formattedTime = currentTime.toLocaleTimeString();
 
-    console.log("Message sent: %s", info.messageId);
+const mailOptions = (mail, location) => ({
+  from: "Bus App <aaqifshafi4@gmail.com>", // Sender address
+  to: mail, // List of recipients
+  subject: "Bus Update", // Subject line
+  html: `
+    <h1>Bus Arrival Notification</h1>
+    <p>Dear Passenger,</p>
+    <p>We are pleased to inform you that your bus <strong>B21-s</strong> has left towards <strong>${location}</strong>.</p>
+    <p>Arriving in approximately:<strong>45 Minutes</strong></p>
+    <p>Thank you for using our bus service. We hope you have a pleasant journey!</p>
+    <p>Best Regards,</p>
+    <p>Your Bus Service Team</p>
+  `, // HTML body
+});
+
+export async function sendEmail(mail, location) {
+  const info = await transporter.sendMail(mailOptions(mail, location));
+  console.log("Message sent: %s", info.messageId);
 }
 
-sendEmail().catch(console.error);
+// sendEmail("zargarfaarid@gmail.com,aaqifshafi@gmail.com", "IUST, Awantipora").catch(console.error);
