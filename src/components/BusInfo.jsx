@@ -8,7 +8,7 @@ const BusInfo = ({ busData }) => {
       </h3>
       <hr />
 
-      <ul className="my-2 ml-4 list-disc [&>li]:m-6">
+      <ul className="my-2 list-disc [&>li]:m-6">
         <li>
           Bus Name:
           <p>{busData.busName || "N/A"}</p>
@@ -35,11 +35,11 @@ const BusInfo = ({ busData }) => {
         </li>
         <li>
           ETA:
-          <p> Arriving in {busData.duration.text || "N/A"}</p>
+          <p> Arriving in {busData.duration || "N/A"}</p>
         </li>
         <li>
           Total Distance
-          <p> {busData.distance.text || "N/A"}</p>
+          <p> {busData.distance || "N/A"}</p>
         </li>
       </ul>
     </div>

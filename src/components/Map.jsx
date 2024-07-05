@@ -57,8 +57,8 @@ const Map = ({ setBusData }) => {
               busSpeed: " km/h",
               driverName: "Rashid Ahmad",
               driverNumber: "999999900",
-              distance: result.rows[0].elements[0].distance,
-              duration: result.rows[0].elements[0].duration,
+              distance: result.rows[0].elements[0].distance.text,
+              duration: result.rows[0].elements[0].duration.text,
             };
             setBusData(busInfo);
           } else {
