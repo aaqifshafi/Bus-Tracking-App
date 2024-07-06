@@ -8,7 +8,7 @@ export default function SendMail() {
   const { toast } = useToast();
 
   const handleSendMail = () => {
-    sendEmail("zargarfaarid@gmail.com,aaqifshafi@gmail.com", "IUST, Awantipora")
+    sendEmail(process.env.MAILS, "IUST, Awantipora")
       .then(() => {
         toast({
           title: "Mail Sent",

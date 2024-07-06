@@ -9,9 +9,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// let currentTime = new Date();
-// currentTime.setMinutes(currentTime.getMinutes());
-// let formattedTime = currentTime.toLocaleTimeString();
+
 
 const mailOptions = (mail, location) => ({
   from: "Bus App <aaqifshafi4@gmail.com>", // Sender address
@@ -33,4 +31,3 @@ export async function sendEmail(mail, location) {
   console.log("Message sent: %s", info.messageId);
 }
 
-// sendEmail("zargarfaarid@gmail.com,aaqifshafi@gmail.com", "IUST, Awantipora").catch(console.error);
