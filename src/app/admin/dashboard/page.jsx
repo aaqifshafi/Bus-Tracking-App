@@ -11,22 +11,17 @@ import SendMail from "@/components/SendMail";
 function Dashboard() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push("/admin/login");
+      router.push("/");
     }
   }, [status, router]);
 
-  const toggleVisibility = () => {
-    setIsVisible(!isVisible);
-  };
-
   if (status === "loading") {
     return (
-      <div class="fixed inset-0 flex items-center justify-center bg-background">
-        <p class="text-2xl font-semibold text-primary">Loading...</p>
+      <div className="fixed inset-0 flex items-center justify-center bg-background">
+        <p className="text-2xl font-semibold text-primary">Loading...</p>
       </div>
     );
   }
@@ -35,12 +30,12 @@ function Dashboard() {
     return (
       <div className="flex flex-col min-h-screen">
         <Navbar />
-        <main className="flex-grow bg-background p-4">
+        <main className="flex-grow bg-background p-4 overflow-auto">
           <div className="container mx-auto py-8">
-            <h1 className="text-3xl font-bold mb-6 scroll-m-20 tracking-tight">
-              Admin Dashboard
+            <h1 className="text-3xl font-bold mb-6 scroll-m-20 tracking-tight p-2">
+              Dashboard
             </h1>
-            <div className="grid grid-cols-1 lg:grid-cols-[70%_30%] gap-2 items-start">
+            <div className="mx-auto grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-[70%_30%] items-start">
               <BusTrackingUI />
             </div>
           </div>
