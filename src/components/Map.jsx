@@ -38,7 +38,36 @@ const Map = ({ setBusData }) => {
     loadScript();
   }, [GOOGLE_MAPS_API_KEY]);
 
-  // Distance and Durationclear
+  // Distance and Duration
+  useEffect(() => {
+    if (routeData.length > 0 && window.google) {
+      const distanceService = new google.maps.DistanceMatrixService();
+      distanceService.getDistanceMatrix(
+        {
+          origins: [{ lat: 34.091028, lng: 74.777464 }], // Endpoint 1
+          destinations: [{ lat: 33.926425, lng: 75.016911 }], // Endpoint 2
+          travelMode: "DRIVING",
+        },
+        (result, status) => {
+          if (status === "OK") {
+            const busInfo = {
+              busName: "B-21s",
+              busNumber: "JK01 7777",
+              busLocation: "Srinagar",
+              busSpeed: " km/h",
+              driverName: "Rashid Ahmad",
+              driverNumber: "999999900",
+              distance: result.rows[0].elements[0].distance,
+              duration: result.rows[0].elements[0].duration,
+            };
+            setBusData(busInfo);
+          } else {
+            console.error(`Distance request failed due to ${status}`);
+          }
+        }
+      );
+    }
+  }, [routeData, setBusData]);
 
   useEffect(() => {
     if (isLoaded && window.google) {

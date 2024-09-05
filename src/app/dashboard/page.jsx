@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import BusTrackingUI from "@/components/BusTrackingUI";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import UserBusTrackingUI from "@/components/UserBusTrackingUI";
 
 function Dashboard() {
   const { data: session, status } = useSession();
@@ -38,8 +38,8 @@ function Dashboard() {
             <h1 className="text-3xl font-bold mb-6 scroll-m-20 tracking-tight">
               Dashboard
             </h1>
-            <div className="grid grid-cols-1 lg:grid-cols-[70%_30%] gap-2 items-start">
-              <BusTrackingUI />
+            <div className="">
+              <UserBusTrackingUI />
             </div>
           </div>
         </main>
