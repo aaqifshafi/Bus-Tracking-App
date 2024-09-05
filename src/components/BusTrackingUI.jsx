@@ -10,7 +10,7 @@ const BusTrackingUI = () => {
   useEffect(() => {}, [busData]);
   return (
     <>
-      <div className="w-full h-[400px] border-2 border-muted rounded-[20px] overflow-hidden self-center justify-self-center md:w-[500px]">
+      <div className="w-full h-[600px] border-2 border-muted rounded-[20px] overflow-hidden self-center justify-self-center md:w-[500px]">
         <Map setBusData={setBusData} />
       </div>
       <div>
