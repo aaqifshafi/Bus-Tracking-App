@@ -15,16 +15,15 @@ import IUSTlogolight from "@/assets/IUSTlogolight.png";
 
 function Dashboard() {
   const { theme, systemTheme } = useTheme();
-  const [logoSrc,setLogoSrc]=useState(IUSTlogo)
+  const [logoSrc, setLogoSrc] = useState(IUSTlogo);
   const { data: session, status } = useSession();
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const currentTheme = theme === "system" ? systemTheme : theme;
-    setLogoSrc(currentTheme === "dark" ?  IUSTlogolight:IUSTlogo);
+    setLogoSrc(currentTheme === "dark" ? IUSTlogolight : IUSTlogo);
   }, [theme, systemTheme]);
-
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -49,15 +48,14 @@ function Dashboard() {
       <div className="flex flex-col min-h-screen">
         <Navbar />
         <main className="flex-grow bg-background p-4">
-            <div className="container mx-auto w-full">
-            <Image src={logoSrc} alt="IUSTlogo"/>
-            </div>
+          <div className="container mx-auto w-full">
+            <Image src={logoSrc} alt="IUSTlogo" />
+          </div>
           <div className="container mx-auto py-8">
-            
             <h1 className="text-3xl font-bold mb-6 scroll-m-20 tracking-tight">
               Admin Dashboard
             </h1>
-            <div className="grid grid-cols-1 lg:grid-cols-[70%_30%] gap-1 items-start">
+            <div className="grid">
               <BusTrackingUI />
             </div>
           </div>
