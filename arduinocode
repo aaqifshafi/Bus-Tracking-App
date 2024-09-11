@@ -1,0 +1,93 @@
+#include <TinyGPS++.h>
+#include <WiFi.h>
+#include <PubSubClient.h>
+#include <HardwareSerial.h>
+
+const char* ssid = "iphone12";
+const char* password = "qwerty";
+
+const char* mqtt_server = "10.233.543.55";
+
+const char* topic = "gps/data";
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+TinyGPSPlus gps;
+
+#define GPS_RX_PIN 16
+#define GPS_TX_PIN 17
+HardwareSerial serialGPS(1);
+
+void setup_wifi() {
+  delay(10);
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+}
+
+void reconnect() {
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    if (client.connect("ESP32Client")) {
+      Serial.println("connected");
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" try again in 5 seconds");
+      delay(5000);
+    }
+  }
+}
+
+void setup() {
+  Serial.begin(115200);
+  serialGPS.begin(9600, SERIAL_8N1, GPS_RX_PIN, GPS_TX_PIN);
+
+  setup_wifi();
+  client.setServer(mqtt_server, 1883);
+}
+
+void loop() {
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+
+  while (serialGPS.available() > 0) {
+    gps.encode(serialGPS.read());
+
+    if (gps.location.isUpdated()) {
+      float latitude = gps.location.lat();
+      float longitude = gps.location.lng();
+      float altitude = gps.altitude.meters();
+
+      Serial.print("Latitude: ");
+      Serial.println(latitude, 6);
+      Serial.print("Longitude: ");
+      Serial.println(longitude, 6);
+      Serial.print("Altitude: ");
+      Serial.println(altitude);
+
+      // Create a JSON payload for the GPS data
+      String payload = "{";
+      payload += "\"latitude\": " + String(latitude, 6) + ",";
+      payload += "\"longitude\": " + String(longitude, 6) + ",";
+      payload += "\"altitude\": " + String(altitude) + "}";
+      
+      // Publish the GPS data to the MQTT topic
+      client.publish(topic, payload.c_str());
+    }
+  }
+}
